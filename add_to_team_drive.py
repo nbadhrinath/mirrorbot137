@@ -1,3 +1,5 @@
+from __future__ import print_function
+from google.oauth2.service_account import Credentials
 import googleapiclient.discovery, json, progress.bar, glob, sys, argparse, time
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -21,7 +23,7 @@ did = args.drive_id
 credentials = glob.glob(args.credentials)
 
 try:
-    open(credentials[0])
+    open(credentials[0], 'r')
     print('>> Found credentials.')
 except IndexError:
     print('>> No credentials found.')
@@ -58,9 +60,9 @@ batch = drive.new_batch_http_request()
 aa = glob.glob('%s/*.json' % acc_dir)
 pbar = progress.bar.Bar("Readying accounts", max=len(aa))
 for i in aa:
-    ce = json.loads(open(i).read())['client_email']
+    ce = json.loads(open(i, 'r').read())['client_email']
     batch.add(drive.permissions().create(fileId=did, supportsAllDrives=True, body={
-        "role": "fileOrganizer",
+        "role": "organizer",
         "type": "user",
         "emailAddress": ce
     }))
@@ -72,4 +74,4 @@ batch.execute()
 print('Complete.')
 hours, rem = divmod((time.time() - stt), 3600)
 minutes, sec = divmod(rem, 60)
-print(f"Elapsed Time:\n{int(hours):0>2}:{int(minutes):0>2}:{sec:05.2f}")
+print("Elapsed Time:\n{:0>2}:{:0>2}:{:05.2f}".format(int(hours), int(minutes), sec))
