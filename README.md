@@ -185,6 +185,8 @@ Three buttons are already added including Drive Link, Index Link, and View Link,
 <p><a href="https://github.com/SlamDevs/slam-mirrorbot/wiki/Bot-commands-to-be-set-in-BotFather"> <img src="https://img.shields.io/badge/See%20On%20Wiki-grey?style=for-the-badge&logo=github" width="160""/></a></p>
 
 ## Getting Google OAuth API credential file
+<details>
+    <summary><b>Click Here For More Details</b></summary>
 - Visit the [Google Cloud Console](https://console.developers.google.com/apis/credentials)
 - Go to the OAuth Consent tab, fill it, and save.
 - Go to the Credentials tab and click Create Credentials -> OAuth Client ID
@@ -198,9 +200,11 @@ Three buttons are already added including Drive Link, Index Link, and View Link,
 pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
 python3 generate_drive_token.py
 ```
+</details>
 
 ## Deploying On VPS
-
+<details>
+    <summary><b>Click Here For More Details</b></summary>
 **IMPORTANT NOTE**: You must set `SERVER_PORT` variable to `80` or any other port you want to use.
 
 - Start Docker daemon (skip if already running):
@@ -254,20 +258,26 @@ sudo docker image prune -a
 - Tutorial video from Tortoolkit repo
 <p><a href="https://youtu.be/c8_TU1sPK08"> <img src="https://img.shields.io/badge/See%20Video-black?style=for-the-badge&logo=YouTube" width="160""/></a></p>
 
+</details>
+
 ## Deploying on Heroku
+Fork this repo then upload **token.pickle** to your forks
+**NOTE**: If you didn't upload **token.pickle**, uploading will not work.
+<p><a href="https://heroku.com/deploy"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
+
 - Deploying on Heroku with Github Workflow
 <p><a href="https://github.com/SlamDevs/slam-mirrorbot/wiki/Deploying-slam-mirrorbot-on-Heroku-with-Github-Workflows"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="170""/></a></p>
 
 - Deploying on Heroku with heroku-cli and Goorm IDE
 <p><a href="https://telegra.ph/How-to-Deploy-a-Mirror-Bot-to-Heroku-with-CLI-05-06"> <img src="https://img.shields.io/badge/Deploy%20Guide-grey?style=for-the-badge&logo=telegraph" width="170""/></a></p>
 
+<details>   
+    <summary>Service Accounts</summary>
 # Using Service Accounts for uploading to avoid user rate limit
 For Service Account to work, you must set `USE_SERVICE_ACCOUNTS` = "True" in config file or environment variables.
 **NOTE**: Using Service Accounts is only recommended while uploading to a Team Drive.
 
 ## Generate Service Accounts. [What is Service Account](https://cloud.google.com/iam/docs/service-accounts)
-<details>
-    <summary><b>Click Here For More Details</b></summary>
 
 Let us create only the Service Accounts that we need. 
 **Warning**: abuse of this feature is not the aim of this project and we do **NOT** recommend that you make a lot of projects, just one project and 100 SAs allow you plenty of use, its also possible that over abuse might get your projects banned by Google. 
@@ -317,15 +327,16 @@ Then add emails from emails.txt to Google Group, after that add Google Group to 
 python3 gen_sa_accounts.py --download-keys project_id
 ```
 
-</details>
-
 ## Add all the Service Accounts to the Team Drive
 - Run:
 ```
 python3 add_to_team_drive.py -d SharedTeamDriveSrcID
 ```
+</details>
 
-# Youtube-dl authentication using [.netrc](https://github.com/rahulkhatri137/mirrorbot137/blob/master/.netrc) file
+<details>   
+    <summary>Youtube-dl authentication</summary>
+(https://github.com/rahulkhatri137/mirrorbot137/blob/master/.netrc) file
 For using your premium accounts in Youtube-dl or for protected Index Links, edit the netrc file according to following format:
 ```
 machine host login username password my_youtube_password
@@ -335,6 +346,7 @@ For Index Link with only password without username, even http auth will not work
 machine example.workers.dev password index_password
 ```
 Where host is the name of extractor (eg. Youtube, Twitch). Multiple accounts of different hosts can be added each separated by a new line.
+</details>
 
 # Credits
 
