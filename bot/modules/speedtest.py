@@ -2,7 +2,8 @@ from speedtest import Speedtest
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot import dispatcher
 from bot.helper.telegram_helper.bot_commands import BotCommands
-from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
+from telegram import ParseMode
+from bot.helper.telegram_helper.message_utils import *
 from telegram.ext import CommandHandler
 
 def speedtest(update, context):

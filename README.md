@@ -1,4 +1,6 @@
 # RK137_Mirror Bot
+## Simple Mirror bot [branch](https://github.com/rahulkhatri137/mirrorbot137/tree/master)
+
 Important - Read these points first
 - Original repo is https://github.com/SlamDevs/slam-mirrorbot
 - I have collected some cool features from various repositories and merged them in one.
@@ -75,7 +77,7 @@ Deploying is pretty much straight forward and is divided into several steps as f
 
 - Clone this repo:
 ```
-git clone https://github.com/rahulkhatri137/mirrorbot137 mirrorbot/
+git clone -b leech https://github.com/rahulkhatri137/mirrorbot137 mirrorbot
 cd mirrorbot
 ```
 
@@ -135,11 +137,11 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `ACCOUNTS_ZIP_URL`: Only if you want to load your Service Account externally from an Index Link. Archive the accounts folder to a zip file. Fill this with the direct link of that file.
 - `TOKEN_PICKLE_URL`: Only if you want to load your **token.pickle** externally from an Index Link. Fill this with the direct link of that file.
 - `MULTI_SEARCH_URL`: To use search/list in multiple TD/folder. Run driveid.py in your terminal and follow it. It will generate a file **drive_folder** when you finish. Upload that file [here](https://gist.github.com/) with the same file name. Open the raw file of that gist, it's URL will be your required config. Check wiki for gist related help. 
-- `DATABASE_URL`: Your Database URL. See [Generate Database](https://github.com/rahulkhatri137/mirrorbot137/tree/master#generate-database) to generate database (**NOTE**: If you use database you can save your Sudo ID permanently using `/addsudo` command).
+- `DATABASE_URL`: Your Database URL. See [Generate Database](https://github.com/rahulkhatri137/mirrorbot137/tree/leech#generate-database) to generate database (**NOTE**: If you use database you can save your Sudo ID permanently using `/addsudo` command).
 - `AUTHORIZED_CHATS`: Fill user_id and chat_id (not username) of groups/users you want to authorize. Separate them with space, Examples: `-0123456789 -1122334455 6915401739`.
 - `SUDO_USERS`: Fill user_id (not username) of users whom you want to give sudo permission. Separate them with space, Examples: `0123456789 1122334455 6915401739` (**NOTE**: If you want to save Sudo ID permanently without database, you must fill your Sudo Id here).
 - `IS_TEAM_DRIVE`: Set to `True` if `GDRIVE_FOLDER_ID` is from a Team Drive else `False` or Leave it empty.
-- `USE_SERVICE_ACCOUNTS`: (Leave empty if unsure) Whether to use Service Accounts or not. For this to work see [Using Service Accounts](https://github.com/rahulkhatri137/mirrorbot137#generate-service-accounts-what-is-service-account) section below.
+- `USE_SERVICE_ACCOUNTS`: (Leave empty if unsure) Whether to use Service Accounts or not. For this to work see [Using Service Accounts](https://github.com/rahulkhatri137/mirrorbot137/tree/leech#generate-service-accounts-what-is-service-account) section below.
 - `INDEX_URL`: Refer to https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index The URL should not have any trailing '/'
 - `MEGA_API_KEY`: Mega.nz API key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
 - `MEGA_EMAIL_ID`: Your E-Mail ID used to sign up on mega.nz for using premium account (Leave though)
@@ -183,6 +185,11 @@ Three buttons are already added including Drive Link, Index Link, and View Link,
 ## Bot commands to be set in [@BotFather](https://t.me/BotFather)
 <details>
     <summary><b>Set these commands</b></summary>
+
+Send following commands to BotFather.
+
+## You can only use the ones you need.
+```
 help - Get Detailed Help
 mirror - Start Mirroring
 tarmirror - Start mirroring and upload as .tar
@@ -221,6 +228,7 @@ restart - Restart the Bot [owner/sudo only]
 stats - Bot Usage Stats
 ping - Ping the Bot
 usage - To see Heroku Dyno Stats (Owner only)
+```
 </details>
 
 ## Getting Google OAuth API credential file
@@ -260,7 +268,7 @@ sudo docker run -p 80:80 mirror-bot
 ```
 OR
 
-**NOTE**: If you want to use port other than 80, change it in [docker-compose.yml](https://github.com/rahulkhatri137/mirrorbot137/blob/master/docker-compose.yml)
+**NOTE**: If you want to use port other than 80, change it in [docker-compose.yml](https://github.com/rahulkhatri137/mirrorbot137/tree/leech/docker-compose.yml)
 
 - Using Docker-compose, you can edit and build your image in seconds:
 ```
@@ -311,8 +319,11 @@ Fork this repo then upload **token.pickle** to your forks
 <p><a href="https://telegra.ph/How-to-Deploy-a-Mirror-Bot-to-Heroku-with-CLI-05-06"> <img src="https://img.shields.io/badge/Deploy%20Guide-grey?style=for-the-badge&logo=telegraph" width="170""/></a></p>
 
 <details>   
-    <summary>Service Accounts</summary>
-# Using Service Accounts for uploading to avoid user rate limit
+    <summary>Extra</summary>
+Read the following for service account and Youtube premium.
+
+# Service Accounts
+## Using Service Accounts for uploading to avoid user rate limit
 For Service Account to work, you must set `USE_SERVICE_ACCOUNTS` = "True" in config file or environment variables.
 **NOTE**: Using Service Accounts is only recommended while uploading to a Team Drive.
 
@@ -371,12 +382,11 @@ python3 gen_sa_accounts.py --download-keys project_id
 ```
 python3 add_to_team_drive.py -d SharedTeamDriveSrcID
 ```
-</details>
 
-<details>   
-    <summary>Youtube-dl authentication</summary>
-Using [.netrc](https://github.com/rahulkhatri137/mirrorbot137/blob/master/.netrc) file
-For using your premium accounts in Youtube-dl or for protected Index Links, edit the netrc file according to following format:
+# Youtube-dl authentication
+Using [.netrc](https://github.com/rahulkhatri137/mirrorbot137/tree/leech/.netrc) file
+For using your premium accounts in Youtube-dl or for protected Index Links.
+- Edit the netrc file according to following format:
 ```
 machine host login username password my_youtube_password
 ```
@@ -385,6 +395,7 @@ For Index Link with only password without username, even http auth will not work
 machine example.workers.dev password index_password
 ```
 Where host is the name of extractor (eg. Youtube, Twitch). Multiple accounts of different hosts can be added each separated by a new line.
+
 </details>
 
 # Credits
