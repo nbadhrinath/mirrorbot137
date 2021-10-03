@@ -126,13 +126,15 @@
         "description": "Show Image/Logo in /start message, Use telegra.ph or any direct link image.",
         "value": "https://telegra.ph/file/3c4237dd056fcc3ed36d4.jpg",
         "required": false
-       },
+      },
       "BUTTON_FOUR_NAME": {
         "description": "Extra buttons (optional).",
+        "value": "RK137GSI",
         "required": false
       },
       "BUTTON_FOUR_URL": {
         "description": "Fill your URL if you are using extra buttons.",
+        "value": "https://t.me/rk137gsi",
         "required": false
       },
       "BUTTON_FIVE_NAME": {
@@ -142,11 +144,11 @@
       "BUTTON_FIVE_URL": {
         "description": "Fill your URL if you are using extra buttons.",
         "required": false
-      }
+      },
       "BUTTON_SIX_URL": {
         "description": "Fill your URL if you are using extra buttons.",
         "required": false
-      }
+      },
         "DATABASE_URL": {
         "description": "Enter your database URL here. If you want to store sudo users permanently",
         "required": false
@@ -199,14 +201,6 @@
         "description": "Should all the upload to Telegram be forced as documents or not, set it True or False",
         "value": "True",
         "required": false
-      },
-        "TG_SPLIT_SIZE": {
-        "description": "Size Telegram split, leave it empty for max size 2GB",
-        "required": false
-      },
-        "TG_SPLIT_SIZE": {
-        "description": "Size Telegram split, leave it empty for max size 2GB",
-        "required": false
-      },
+      }
     }
 }
