@@ -17,7 +17,7 @@ from bot.helper.telegram_helper.message_utils import *
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, torrent_search, delete, speedtest, count, leech_settings, usage
 
 
 def stats(update, context):
@@ -58,7 +58,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
         sendMarkup(start_string, context.bot, update, reply_markup)
     else:
         sendMarkup(
-            'Oops! not a Authorized user⛔.\nPlease deploy your own <b>RK137 mirrorbot</b>.',
+            'Oops! not a Authorized user⛔ \nPlease deploy your own <b>RK137 mirrorbot</b>.',
             context.bot,
             update,
             reply_markup,
@@ -155,29 +155,31 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.StatsCommand}</b>: Show Stats of the machine the bot is hosted on
 <br><br>
-/{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
+<b>/{BotCommands.PingCommand}</b>: Check how long it takes to Ping the Bot
 <br><br>
-/{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
+<b>/{BotCommands.AuthorizeCommand}</b>: Authorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
 <br><br>
-/{BotCommands.UnAuthorizeCommand}: Unauthorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
+<b>/{BotCommands.UnAuthorizeCommand}</b>: Unauthorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
 <br><br>
-/{BotCommands.AuthorizedUsersCommand}: Show authorized users (Only Owner & Sudo)
+<b>/{BotCommands.AuthorizedUsersCommand}</b>: Show authorized users (Only Owner & Sudo)
 <br><br>
-/{BotCommands.AddSudoCommand}: Add sudo user (Only Owner)
+<b>/{BotCommands.AddSudoCommand}</b>: Add sudo user (Only Owner)
 <br><br>
-/{BotCommands.RmSudoCommand}: Remove sudo users (Only Owner)
+<b>/{BotCommands.RmSudoCommand}</b>: Remove sudo users (Only Owner)
 <br><br>
-/{BotCommands.RestartCommand}: Restart the bot
+<b>/{BotCommands.RestartCommand}</b>: Restart the bot
 <br><br>
-/{BotCommands.LogCommand}: Get a log file of the bot. Handy for getting crash reports
+<b>/{BotCommands.LogCommand}</b>: Get a log file of the bot. Handy for getting crash reports
 <br><br>
-/{BotCommands.SpeedCommand}: Check Internet Speed of the Host
+<b>/{BotCommands.SpeedCommand}</b>: Check Internet Speed of the Host
 <br><br>
-/{BotCommands.ShellCommand}: Run commands in Shell (Only Owner)
+<b>/{BotCommands.ShellCommand}</b>: Run commands in Shell (Only Owner)
 <br><br>
-/{BotCommands.ExecHelpCommand}: Get help for Executor module (Only Owner)
+<b>/{BotCommands.ExecHelpCommand}</b>: Get help for Executor module (Only Owner)
 <br><br>
-/{BotCommands.TsHelpCommand}: Get help for Torrent search module
+<b>/{BotCommands.TsHelpCommand}</b>: Get help for Torrent search module
+<br><br>
+<b>/{BotCommands.UsageCommand}</b>: To see Heroku Dyno Stats (Owner & Sudo only).
 '''
 help = Telegraph(access_token=telegraph_token).create_page(
         title='RK137 Mirrorbot Help',
@@ -203,6 +205,7 @@ help_string = f'''
 /{BotCommands.SpeedCommand}: Check Internet Speed of the Host
 /{BotCommands.RestartCommand}: Restart the bot
 /{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
+/{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner & Sudo only)
 /{BotCommands.QbLeechCommand} [magnet_link]: Start leeching to Telegram using qBittorrent, Use /{BotCommands.QbLeechCommand} to select files before leeching
 /{BotCommands.LeechCommand} [download_url][magnet_link]: Start leeching to Telegram, Use <b>/{BotCommands.LeechCommand} s</b> to select files before leeching
 /{BotCommands.QbMirrorCommand} [magnet_link]: Start Mirroring using qBittorrent, Use /{BotCommands.QbMirrorCommand} to select files before downloading
@@ -239,7 +242,8 @@ botcmds = [
         (f'{BotCommands.PingCommand}','Ping the Bot'),
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
-        (f'{BotCommands.TsHelpCommand}','Get help for Torrent search module')
+        (f'{BotCommands.TsHelpCommand}','Get help for Torrent search module'),
+        (f'{BotCommands.UsageCommand}','To see Heroku Dyno Stats (Owner only)')
     ]
 '''
 

@@ -5,30 +5,31 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 from telegram.ext import CommandHandler
 
-
 def speedtest(update, context):
-    speed = sendMessage("Running Speed Test . . . ", context.bot, update)
+    speed = sendMessage("𝓡𝓾𝓷𝓷𝓲𝓷𝓰 𝓢𝓹𝓮𝓮𝓭 𝓣𝓮𝓼𝓽 . . . ", context.bot, update)
     test = Speedtest()
     test.get_best_server()
     test.download()
     test.upload()
     test.results.share()
     result = test.results.dict()
+    path = (result['share'])
     string_speed = f'''
-<b>Server</b>
-<b>Name:</b> <code>{result['server']['name']}</code>
-<b>Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
-<b>Sponsor:</b> <code>{result['server']['sponsor']}</code>
-<b>ISP:</b> <code>{result['client']['isp']}</code>
-
-<b>SpeedTest Results</b>
-<b>Upload:</b> <code>{speed_convert(result['upload'] / 8)}</code>
-<b>Download:</b>  <code>{speed_convert(result['download'] / 8)}</code>
-<b>Ping:</b> <code>{result['ping']} ms</code>
-<b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
+<b>🖥️ Server / Stats of The Machine 🖥️</b>
+<b>💳 Name:</b> <code>{result['server']['name']}</code>
+<b>⛳️ Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
+    
+<b>▶SpeedTest Results 💨</b>
+<b>🔺 Upload:</b> <code>{speed_convert(result['upload'] / 8)}</code>
+<b>🔻 Download:</b>  <code>{speed_convert(result['download'] / 8)}</code>
+<b>📶 Ping:</b> <code>{result['ping']} ms</code>
+<b>🏬 ISP:</b> <code>{result['client']['isp']}</code>
 '''
-    editMessage(string_speed, speed)
-
+    speed.delete()
+    try:
+        update.effective_message.reply_photo(path, string_speed, parse_mode=ParseMode.HTML)
+    except:
+        update.effective_message.reply_text(string_speed, parse_mode=ParseMode.HTML)
 
 def speed_convert(size):
     """Hi human, you can't read bytes?"""
