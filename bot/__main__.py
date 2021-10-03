@@ -154,6 +154,30 @@ help_string_telegraph = f'''<br>
 <b>/{BotCommands.StatusCommand}</b>: Shows a status of all the downloads
 <br><br>
 <b>/{BotCommands.StatsCommand}</b>: Show Stats of the machine the bot is hosted on
+<br><br>
+/{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
+<br><br>
+/{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
+<br><br>
+/{BotCommands.UnAuthorizeCommand}: Unauthorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
+<br><br>
+/{BotCommands.AuthorizedUsersCommand}: Show authorized users (Only Owner & Sudo)
+<br><br>
+/{BotCommands.AddSudoCommand}: Add sudo user (Only Owner)
+<br><br>
+/{BotCommands.RmSudoCommand}: Remove sudo users (Only Owner)
+<br><br>
+/{BotCommands.RestartCommand}: Restart the bot
+<br><br>
+/{BotCommands.LogCommand}: Get a log file of the bot. Handy for getting crash reports
+<br><br>
+/{BotCommands.SpeedCommand}: Check Internet Speed of the Host
+<br><br>
+/{BotCommands.ShellCommand}: Run commands in Shell (Only Owner)
+<br><br>
+/{BotCommands.ExecHelpCommand}: Get help for Executor module (Only Owner)
+<br><br>
+/{BotCommands.TsHelpCommand}: Get help for Torrent search module
 '''
 help = Telegraph(access_token=telegraph_token).create_page(
         title='RK137 Mirrorbot Help',
@@ -163,34 +187,30 @@ help = Telegraph(access_token=telegraph_token).create_page(
     )["path"]
 
 help_string = f'''
-/{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
-
-/{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
-
-/{BotCommands.UnAuthorizeCommand}: Unauthorize a chat or a user to use the bot (Can only be invoked by Owner & Sudo of the bot)
-
-/{BotCommands.AuthorizedUsersCommand}: Show authorized users (Only Owner & Sudo)
-
-/{BotCommands.AddSudoCommand}: Add sudo user (Only Owner)
-
-/{BotCommands.RmSudoCommand}: Remove sudo users (Only Owner)
-
-/{BotCommands.RestartCommand}: Restart the bot
-
+*Check all commands for more...*
+/{BotCommands.HelpCommand}: To get this message
+/{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to google drive
+/{BotCommands.UnzipMirrorCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it to google drive
+/{BotCommands.TarMirrorCommand} [download_url][magnet_link]: start mirroring and upload the archived (.tar) version of the download
+/{BotCommands.WatchCommand} [youtube-dl supported link]: Mirror through youtube-dl. Click /{BotCommands.WatchCommand} for more help.
+/{BotCommands.TarWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
+/{BotCommands.CancelMirror} : Reply to the message by which the download was initiated and that download will be cancelled
+/{BotCommands.StatusCommand}: Shows a status of all the downloads
+/{BotCommands.ListCommand} [search term]: Searches the search term in the Google drive, if found replies with the link
+/{BotCommands.StatsCommand}: Show Stats of the machine the bot is hosted on
+/{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by owner of the bot)
 /{BotCommands.LogCommand}: Get a log file of the bot. Handy for getting crash reports
-
 /{BotCommands.SpeedCommand}: Check Internet Speed of the Host
-
-/{BotCommands.ShellCommand}: Run commands in Shell (Only Owner)
-
-/{BotCommands.ExecHelpCommand}: Get help for Executor module (Only Owner)
-
-/{BotCommands.TsHelpCommand}: Get help for Torrent search module
+/{BotCommands.RestartCommand}: Restart the bot
+/{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
+/{BotCommands.QbLeechCommand} [magnet_link]: Start leeching to Telegram using qBittorrent, Use /{BotCommands.QbLeechCommand} to select files before leeching
+/{BotCommands.LeechCommand} [download_url][magnet_link]: Start leeching to Telegram, Use <b>/{BotCommands.LeechCommand} s</b> to select files before leeching
+/{BotCommands.QbMirrorCommand} [magnet_link]: Start Mirroring using qBittorrent, Use /{BotCommands.QbMirrorCommand} to select files before downloading
 '''
 
 def bot_help(update, context):
     button = button_build.ButtonMaker()
-    button.buildbutton("Other Commands", f"https://telegra.ph/{help}")
+    button.buildbutton("All Commands", f"https://telegra.ph/{help}")
     reply_markup = InlineKeyboardMarkup(button.build_menu(1))
     sendMarkup(help_string, context.bot, update, reply_markup)
 
@@ -233,15 +253,6 @@ def main():
             chat_id, msg_id = map(int, f)
         bot.edit_message_text("♻️Restarted successfully!", chat_id, msg_id)
         os.remove(".restartmsg")
-    elif OWNER_ID:
-        try:
-            text = "<b>Bot Restarted!</b>"
-            bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
-            if AUTHORIZED_CHATS:
-                for i in AUTHORIZED_CHATS:
-                    bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
-        except Exception as e:
-            LOGGER.warning(e)
     # bot.set_my_commands(botcmds)
     start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,
