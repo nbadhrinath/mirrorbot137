@@ -23,7 +23,7 @@ from telegram import InlineKeyboardMarkup
 from bot.helper.telegram_helper import button_build
 from telegraph import Telegraph
 from bot import parent_id, DOWNLOAD_DIR, IS_TEAM_DRIVE, INDEX_URL, \
-    USE_SERVICE_ACCOUNTS, telegraph_token, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, BUTTON_SIX_NAME, BUTTON_SIX_URL, SHORTENER, SHORTENER_API, VIEW_LINK, DRIVES_NAMES, DRIVES_IDS, INDEX_URLS, RECURSIVE_SEARCH
+    USE_SERVICE_ACCOUNTS, telegraph_token, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, BUTTON_SIX_NAME, BUTTON_SIX_URL, SHORTENER, SHORTENER_API, DRIVES_NAMES, DRIVES_IDS, INDEX_URLS, RECURSIVE_SEARCH
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, setInterval
 from bot.helper.ext_utils.fs_utils import get_mime_type, get_path_size
 from bot.helper.ext_utils.shortenurl import short_url
@@ -449,13 +449,6 @@ class GoogleDriveHelper:
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(url)
                         buttons.buildbutton("⚡ Index Link ⚡", siurl)
-                        if VIEW_LINK:
-                            siurls = short_url(urls)
-                            buttons.buildbutton("🌐 View Link 🌐", siurls)
-                    else:
-                        buttons.buildbutton("⚡ Index Link ⚡", url)
-                        if VIEW_LINK:
-                            buttons.buildbutton("🌐 View Link 🌐", urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -787,8 +780,6 @@ class GoogleDriveHelper:
                                 msg += f' <b>| <a href="{siurls}">⚡View Link⚡</a></b>'
                         else:
                             msg += f' <b>| <a href="{url}">⚡Index Link⚡</a></b>'
-                            if VIEW_LINK:
-                                msg += f' <b>| <a href="{urls}">🌐View Link🌐</a></b>'
                 msg += '<br><br>'
                 content_count += 1
                 all_contents_count += 1

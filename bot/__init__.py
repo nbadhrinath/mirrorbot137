@@ -301,11 +301,6 @@ try:
 except KeyError:
     STOP_DUPLICATE = False
 try:
-    VIEW_LINK = getConfig('VIEW_LINK')
-    VIEW_LINK = VIEW_LINK.lower() == 'true'
-except KeyError:
-    VIEW_LINK = False
-try:
     IS_TEAM_DRIVE = getConfig('IS_TEAM_DRIVE')
     IS_TEAM_DRIVE = IS_TEAM_DRIVE.lower() == 'true'
 except KeyError:

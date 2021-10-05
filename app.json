@@ -185,10 +185,6 @@
         "description": "To limit the Torrent/Direct mirror size. Examples: 100 gb, 100 GB, 10 tb, 10 TB",
         "required": false
       },
-        "VIEW_LINK": {
-        "description": "View Link button to open file Index Link in browser instead of direct download link, you can figure out if it's compatible with your Index code.",
-        "required": false
-      },
         "STATUS_LIMIT": {
         "description": "Limit the no. of tasks shown in status message with button. NOTE : Recommended limit is `4` tasks at max",
         "required": false

@@ -15,7 +15,7 @@ from telegram import InlineKeyboardMarkup
 from fnmatch import fnmatch
 
 from bot import Interval, INDEX_URL, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, \
-                BUTTON_SIX_NAME, BUTTON_SIX_URL, BLOCK_MEGA_FOLDER, BLOCK_MEGA_LINKS, VIEW_LINK, aria2, \
+                BUTTON_SIX_NAME, BUTTON_SIX_URL, BLOCK_MEGA_FOLDER, BLOCK_MEGA_LINKS, aria2, \
                 dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, SHORTENER, SHORTENER_API, \
                 TAR_UNZIP_LIMIT, TG_SPLIT_SIZE
 from bot.helper.ext_utils import fs_utils, bot_utils
@@ -23,7 +23,6 @@ from bot.helper.ext_utils.shortenurl import short_url
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException, NotSupportedExtractionArchive
 from bot.helper.mirror_utils.download_utils.aria2_download import AriaDownloadHelper
 from bot.helper.mirror_utils.download_utils.mega_downloader import MegaDownloadHelper
-from bot.helper.mirror_utils.download_utils.qbit_downloader import QbitTorrent
 from bot.helper.mirror_utils.download_utils.direct_link_generator import direct_link_generator
 from bot.helper.mirror_utils.download_utils.telegram_downloader import TelegramDownloadHelper
 from bot.helper.mirror_utils.status_utils import listeners
@@ -273,13 +272,6 @@ class MirrorListener(listeners.MirrorListeners):
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(share_url)
                         buttons.buildbutton("⚡ Index Link ⚡", siurl)
-                        if VIEW_LINK:
-                            siurls = short_url(share_urls)
-                            buttons.buildbutton("🌐 View Link 🌐", siurls)
-                    else:
-                        buttons.buildbutton("⚡ Index Link ⚡", share_url)
-                        if VIEW_LINK:
-                            buttons.buildbutton("🌐 View Link 🌐", share_urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -453,12 +445,6 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
         else:
             mega_dl = MegaDownloadHelper()
             mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)
-
-    elif isQbit and (bot_utils.is_magnet(link) or os.path.exists(link)):
-        qbit = QbitTorrent()
-        qbit.add_torrent(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, qbitsel)
-
-    else:
         ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)
         sendStatusMessage(update, bot)
 
@@ -475,18 +461,6 @@ def unzip_mirror(update, context):
 def zip_mirror(update, context):
     _mirror(context.bot, update, True, isZip=True)
 
-def qb_mirror(update, context):
-    _mirror(context.bot, update, isQbit=True)
-
-def qb_tar_mirror(update, context):
-    _mirror(context.bot, update, True, isQbit=True)
-
-def qb_unzip_mirror(update, context):
-    _mirror(context.bot, update, extract=True, isQbit=True)
-
-def qb_zip_mirror(update, context):
-    _mirror(context.bot, update, True, isZip=True, isQbit=True)
-
 def leech(update, context):
     _mirror(context.bot, update, isLeech=True)
 
@@ -499,18 +473,6 @@ def unzip_leech(update, context):
 def zip_leech(update, context):
     _mirror(context.bot, update, True, isZip=True, isLeech=True)
 
-def qb_leech(update, context):
-    _mirror(context.bot, update, isQbit=True, isLeech=True)
-
-def qb_tar_leech(update, context):
-    _mirror(context.bot, update, True, isQbit=True, isLeech=True)
-
-def qb_unzip_leech(update, context):
-    _mirror(context.bot, update, extract=True, isQbit=True, isLeech=True)
-
-def qb_zip_leech(update, context):
-    _mirror(context.bot, update, True, isZip=True, isQbit=True, isLeech=True)
-
 mirror_handler = CommandHandler(BotCommands.MirrorCommand, mirror,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 tar_mirror_handler = CommandHandler(BotCommands.TarMirrorCommand, tar_mirror,
@@ -518,14 +480,6 @@ tar_mirror_handler = CommandHandler(BotCommands.TarMirrorCommand, tar_mirror,
 unzip_mirror_handler = CommandHandler(BotCommands.UnzipMirrorCommand, unzip_mirror,
                                       filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 zip_mirror_handler = CommandHandler(BotCommands.ZipMirrorCommand, zip_mirror,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_mirror_handler = CommandHandler(BotCommands.QbMirrorCommand, qb_mirror,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_tar_mirror_handler = CommandHandler(BotCommands.QbTarMirrorCommand, qb_tar_mirror,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_unzip_mirror_handler = CommandHandler(BotCommands.QbUnzipMirrorCommand, qb_unzip_mirror,
-                                      filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_zip_mirror_handler = CommandHandler(BotCommands.QbZipMirrorCommand, qb_zip_mirror,
                                     filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 leech_handler = CommandHandler(BotCommands.LeechCommand, leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
@@ -535,27 +489,11 @@ unzip_leech_handler = CommandHandler(BotCommands.UnzipLeechCommand, unzip_leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 zip_leech_handler = CommandHandler(BotCommands.ZipLeechCommand, zip_leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_leech_handler = CommandHandler(BotCommands.QbLeechCommand, qb_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_tar_leech_handler = CommandHandler(BotCommands.QbTarLeechCommand, qb_tar_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_unzip_leech_handler = CommandHandler(BotCommands.QbUnzipLeechCommand, qb_unzip_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-qb_zip_leech_handler = CommandHandler(BotCommands.QbZipLeechCommand, qb_zip_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 dispatcher.add_handler(mirror_handler)
 dispatcher.add_handler(tar_mirror_handler)
 dispatcher.add_handler(unzip_mirror_handler)
 dispatcher.add_handler(zip_mirror_handler)
-dispatcher.add_handler(qb_mirror_handler)
-dispatcher.add_handler(qb_tar_mirror_handler)
-dispatcher.add_handler(qb_unzip_mirror_handler)
-dispatcher.add_handler(qb_zip_mirror_handler)
 dispatcher.add_handler(leech_handler)
 dispatcher.add_handler(tar_leech_handler)
 dispatcher.add_handler(unzip_leech_handler)
 dispatcher.add_handler(zip_leech_handler)
-dispatcher.add_handler(qb_leech_handler)
-dispatcher.add_handler(qb_tar_leech_handler)
-dispatcher.add_handler(qb_unzip_leech_handler)
-dispatcher.add_handler(qb_zip_leech_handler)
