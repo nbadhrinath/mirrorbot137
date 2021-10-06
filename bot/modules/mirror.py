@@ -43,12 +43,11 @@ ariaDlManager.start_listener()
 
 
 class MirrorListener(listeners.MirrorListeners):
-    def __init__(self, bot, update, pswd, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False):
+    def __init__(self, bot, update, pswd, isTar=False, extract=False, isZip=False, isLeech=False):
         super().__init__(bot, update)
         self.isTar = isTar
         self.extract = extract
         self.isZip = isZip
-        self.isQbit = isQbit
         self.isLeech = isLeech
         self.pswd = pswd
 
@@ -75,7 +74,7 @@ class MirrorListener(listeners.MirrorListeners):
             name = f"{download.name()}".replace('/', '')
             gid = download.gid()
             size = download.size_raw()
-            if name == "None" or self.isQbit: # when pyrogram's media.file_name is of NoneType
+            if name == "None" # when pyrogram's media.file_name is of NoneType
                 name = os.listdir(f'{DOWNLOAD_DIR}{self.uid}')[0]
             m_path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
         if self.isTar:
@@ -191,7 +190,7 @@ class MirrorListener(listeners.MirrorListeners):
             uname = f"@{self.message.from_user.username}"
         else:
             uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
-        msg = f"{uname} your download has been stopped due to: {error}"
+        msg = f"🛑{uname} your download has been stopped due to: {error}"
         sendMessage(msg, self.bot, self.update)
         if count == 0:
             self.clean()
@@ -212,14 +211,14 @@ class MirrorListener(listeners.MirrorListeners):
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             count = len(files)
             if self.message.chat.type == 'private':
-                msg = f'<b>Name:</b> <code>{link}</code>\n'
-                msg += f'<b>Total Files:</b> {count}'
+                msg = f'<b>🗂 𝗙𝗶𝗹𝗲𝗡𝗮𝗺𝗲:</b> <code>{link}</code>\n'
+                msg += f'<b>📦 𝐓𝐨𝐭𝐚𝐥 𝐒𝐢𝐳𝐞:</b> {count}'
                 sendMessage(msg, self.bot, self.update)
             else:
                 chat_id = str(self.message.chat.id)[4:]
-                msg = f"<b>Name:</b> <a href='https://t.me/c/{chat_id}/{self.uid}'>{link}</a>\n"
-                msg += f'<b>Total Files:</b> {count}\n'
-                msg += f'cc: {uname}\n\n'
+                msg = f"<b>🗂 𝗙𝗶𝗹𝗲𝗡𝗮𝗺𝗲:</b> <a href='https://t.me/c/{chat_id}/{self.uid}'>{link}</a>\n"
+                msg += f'<b>📦 𝐓𝐨𝐭𝐚𝐥 𝐒𝐢𝐳𝐞 :</b> {count}\n'
+                msg += f'👤 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗿 👉 {uname}\n\n'
                 fmsg = ''
                 for index, item in enumerate(list(files), start=1):
                     msg_id = files[item]
@@ -243,13 +242,7 @@ class MirrorListener(listeners.MirrorListeners):
                 update_all_messages()
             return
         with download_dict_lock:
-            msg = f'<b>Filename: </b><code>{download_dict[self.uid].name()}</code>\n<b>Size: </b><code>{size}</code>'
-            if os.path.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
-                msg += '\n<b>Type: </b><code>Folder</code>'
-                msg += f'\n<b>SubFolders: </b><code>{folders}</code>'
-                msg += f'\n<b>Files: </b><code>{files}</code>'
-            else:
-                msg += f'\n<b>Type: </b><code>{typ}</code>'
+            msg = f'<b>🗂 𝗙𝗶𝗹𝗲𝗡𝗮𝗺𝗲: </b><code>{download_dict[self.uid].name()}</code>\n<b>📦 𝐓𝐨𝐭𝐚𝐥 𝐒𝐢𝐳𝐞 : </b><code>{size}</code>'
             buttons = button_build.ButtonMaker()
             if SHORTENER is not None and SHORTENER_API is not None:
                 surl = short_url(link)
@@ -272,6 +265,8 @@ class MirrorListener(listeners.MirrorListeners):
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(share_url)
                         buttons.buildbutton("⚡ Index Link ⚡", siurl)
+                    else:
+                        buttons.buildbutton("⚡ Index Link ⚡", share_url)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -283,7 +278,7 @@ class MirrorListener(listeners.MirrorListeners):
             else:
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             if uname is not None:
-                msg += f'\n\ncc: {uname}'
+                msg += f'\n\n👤 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗿 👉 {uname}'
             try:
                 fs_utils.clean_download(download_dict[self.uid].path())
             except FileNotFoundError:
@@ -317,15 +312,13 @@ class MirrorListener(listeners.MirrorListeners):
         else:
             update_all_messages()
 
-def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, isLeech=False):
+def _mirror(bot, update, isTar=False, extract=False, isZip=False, isLeech=False):
     mesg = update.message.text.split('\n')
     message_args = mesg[0].split(' ')
     name_args = mesg[0].split('|')
-    qbitsel = False
     try:
         link = message_args[1]
         if link == "s":
-            qbitsel = True
             link = message_args[2]
         if link.startswith("|") or link.startswith("pswd: "):
             link = ''
@@ -373,10 +366,6 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
                 if bot_utils.is_url(reply_text) or bot_utils.is_magnet(reply_text):
                     link = reply_text
 
-            elif isQbit:
-                file_name = str(time.time()).replace(".", "") + ".torrent"
-                file.get_file().download(custom_path=f"{file_name}")
-                link = f"{file_name}"
             elif file.mime_type != "application/x-bittorrent":
                 listener = MirrorListener(bot, update, pswd, isTar, extract, isZip, isLeech=isLeech)
                 tg_downloader = TelegramDownloadHelper(listener)
@@ -385,18 +374,18 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
                 return
             else:
                 link = file.get_file().file_path
-    if bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link) and isQbit:
+    if bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link) :
         resp = requests.get(link)
         if resp.status_code == 200:
             file_name = str(time.time()).replace(".", "") + ".torrent"
             open(file_name, "wb").write(resp.content)
             link = f"{file_name}"
         else:
-            sendMessage("ERROR: link got HTTP response:" + resp.status_code, bot, update)
+            sendMessage("❌ERROR: link got HTTP response:" + resp.status_code, bot, update)
             return
 
     elif not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
-        sendMessage('No download source provided', bot, update)
+        sendMessage('⛔No download source provided', bot, update)
         return
     elif not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
         try:
@@ -410,7 +399,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
                 sendMessage(f"{e}", bot, update)
                 return
 
-    listener = MirrorListener(bot, update, pswd, isTar, extract, isZip, isQbit, isLeech)
+    listener = MirrorListener(bot, update, pswd, isTar, extract, isZip, isLeech)
 
     if bot_utils.is_gdrive_link(link):
         if not isTar and not extract and not isLeech:
@@ -423,7 +412,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
         if TAR_UNZIP_LIMIT is not None:
             result = bot_utils.check_limit(size, TAR_UNZIP_LIMIT)
             if result:
-                msg = f'Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(size)}.'
+                msg = f'🚫Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(size)}.'
                 sendMessage(msg, bot, update)
                 return
         LOGGER.info(f"Download Name : {name}")
@@ -437,11 +426,11 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False, isQbit=False, 
 
     elif bot_utils.is_mega_link(link):
         if BLOCK_MEGA_LINKS:
-            sendMessage("Mega links are blocked!", bot, update)
+            sendMessage("🚫Mega links are blocked!", bot, update)
             return
         link_type = bot_utils.get_mega_link_type(link)
         if link_type == "folder" and BLOCK_MEGA_FOLDER:
-            sendMessage("Mega folder are blocked!", bot, update)
+            sendMessage("🚫Mega folder are blocked!", bot, update)
         else:
             mega_dl = MegaDownloadHelper()
             mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)

@@ -9,7 +9,6 @@ from sys import executable
 from telegram import ParseMode
 from telegram.ext import CommandHandler
 from telegraph import Telegraph
-from wserver import start_server_async
 from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, telegraph_token
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
@@ -48,11 +47,11 @@ def stats(update, context):
 
 def start(update, context):
     buttons = button_build.ButtonMaker()
-    buttons.buildbutton("Repo", "https://github.com/rahulkhatri137/mirrorbot137")
+    buttons.buildbutton("⚜️Repo⚜️", "https://github.com/rahulkhatri137/mirrorbot137")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-This bot is designed by @rahulkhatri137 to mirror your links to Google Drive!
+🔶This bot is designed by @rahulkhatri137 to mirror your links to Google Drive!🔶
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
         sendMarkup(start_string, context.bot, update, reply_markup)
@@ -66,7 +65,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
 
 
 def restart(update, context):
-    restart_message = sendMessage("Restarting, Please wait!", context.bot, update)
+    restart_message = sendMessage("✴️Restarting, Please wait!", context.bot, update)
     # Save restart message object in order to reply to it after restarting
     with open(".restartmsg", "w") as f:
         f.truncate(0)
@@ -99,7 +98,7 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.UnzipMirrorCommand}</b> [download_url][magnet_link]: Starts mirroring and if downloaded file is any archive, extracts it to Google Drive
 <br><br>
-<b>/{BotCommands.LeechCommand}</b> [download_url][magnet_link]: Start leeching to Telegram, Use <b>/{BotCommands.LeechCommand} s</b> to select files before leeching
+<b>/{BotCommands.LeechCommand}</b> [download_url][magnet_link]: Start leeching to Telegram, Use <b>/{BotCommands.LeechSetCommand}</b> for leech settings
 <br><br>
 <b>/{BotCommands.TarLeechCommand}</b> [download_url][magnet_link]:  Start leeching to Telegram and upload it as (.tar)
 <br><br>
@@ -111,7 +110,7 @@ help_string_telegraph = f'''<br>
 <br><br>
 <b>/{BotCommands.DeleteCommand}</b> [drive_url]: Delete file from Google Drive (Only Owner & Sudo)
 <br><br>
-<b>/{BotCommands.WatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl. Click <b>/{BotCommands.WatchCommand}</b> for more help
+<b>/{BotCommands.WatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl. Use this without link for more help
 <br><br>
 <b>/{BotCommands.TarWatchCommand}</b> [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
 <br><br>
@@ -181,7 +180,7 @@ help_string = f'''
 /{BotCommands.PingCommand}: Check how long it takes to Ping the Bot
 /{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner & Sudo only)
 /{BotCommands.LeechWatchCommand} [youtube-dl supported link]: Leech through youtube-dl 
-/{BotCommands.LeechCommand} [download_url][magnet_link]: Start leeching to Telegram, Use /{BotCommands.LeechCommand} to select files before leeching
+/{BotCommands.LeechCommand} [download_url][magnet_link]: Start leeching to Telegram, Use /{BotCommands.LeechSetCommand} for leech settings
 '''
 
 def bot_help(update, context):
@@ -197,7 +196,6 @@ botcmds = [
         (f'{BotCommands.TarMirrorCommand}','Start mirroring and upload as .tar'),
         (f'{BotCommands.ZipMirrorCommand}','Start mirroring and upload as .zip'),
         (f'{BotCommands.UnzipMirrorCommand}','Extract files'),
-        (f'{BotCommands.QbMirrorCommand}','Start Mirroring using qBittorrent'),
         (f'{BotCommands.CloneCommand}','Copy file/folder to Drive'),
         (f'{BotCommands.CountCommand}','Count file/folder of Drive link'),
         (f'{BotCommands.DeleteCommand}','Delete file from Drive'),
@@ -219,8 +217,6 @@ botcmds = [
 
 def main():
     fs_utils.start_cleanup()
-    if IS_VPS:
-        asyncio.get_event_loop().run_until_complete(start_server_async(PORT))
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:

@@ -122,7 +122,7 @@ class MegaAppListener(MegaListener):
 
     def cancel_download(self):
         self.is_cancelled = True
-        self.listener.onDownloadError("Download Canceled by user")
+        self.listener.onDownloadError("🚫Download Canceled by user")
 
 
 class AsyncExecutor:
@@ -178,7 +178,7 @@ class MegaDownloadHelper:
                 gd = GoogleDriveHelper()
                 smsg, button = gd.drive_list(mname, True)
             if smsg:
-                msg1 = "File/Folder is already available in Drive.\nHere are the search results:"
+                msg1 = "⚜️File/Folder is already available in Drive.\nHere are the search results👇"
                 sendMarkup(msg1, listener.bot, listener.update, button)
                 executor.continue_event.set()
                 return
@@ -186,10 +186,10 @@ class MegaDownloadHelper:
             size = api.getSize(node)
             if listener.isTar or listener.extract:
                 is_tar_ext = True
-                msg3 = f'Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
+                msg3 = f'⛔Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
             else:
                 is_tar_ext = False
-                msg3 = f'Failed, Mega limit is {MEGA_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
+                msg3 = f'⛔Failed, Mega limit is {MEGA_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
             result = check_limit(size, MEGA_LIMIT, TAR_UNZIP_LIMIT, is_tar_ext)
             if result:
                 sendMessage(msg3, listener.bot, listener.update)

@@ -8,7 +8,7 @@
       "python"
     ],
     "repository": "https://github.com/rahulkhatri137/mirrorbot137",
-    "success_url": "https://github.com/rahulkhatri137/mirrorbot137/blob/master/README.md",
+    "success_url": "https://github.com/rahulkhatri137/mirrorbot137/blob/leech/README.md",
     "stack": "container",
     "env": {
       "ENV": {

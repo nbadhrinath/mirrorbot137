@@ -81,7 +81,7 @@ def setLeechType(update, context):
     elif data[0] == "closeset":
         query.message.delete()
 
-leech_set_handler = CommandHandler(BotCommands.LeechSetCommand, leechSet, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+leech_set_handler = CommandHandler(BotCommands.LeechSetCommand, leechSet, filters=CustomFilters.authorized_chat | CustomFilters.sudo_user, run_async=True)
 as_doc_handler = CallbackQueryHandler(setLeechType, pattern="doc", run_async=True)
 as_media_handler = CallbackQueryHandler(setLeechType, pattern="med", run_async=True)
 close_set_handler = CallbackQueryHandler(setLeechType, pattern="closeset", run_async=True)

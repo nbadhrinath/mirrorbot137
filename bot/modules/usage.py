@@ -19,7 +19,7 @@ def dyno_usage(update, context):
         app = Heroku.app(HEROKU_APP_NAME)
     else:
         sendMessage(
-            "Please insert your HEROKU_APP_NAME and HEROKU_API_KEY in Vars",
+            "⛔Please insert your HEROKU_APP_NAME and HEROKU_API_KEY in Vars",
             context.bot,
             update
         )
@@ -74,6 +74,6 @@ def dyno_usage(update, context):
 
 
 dyno_usage_handler = CommandHandler(command=BotCommands.UsageCommand, callback=dyno_usage,
-                                    filters=CustomFilters.owner_filter)
+                                    filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
                                     
 dispatcher.add_handler(dyno_usage_handler)

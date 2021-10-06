@@ -13,18 +13,13 @@ Important - Read these points first
 
 ## By Slam Devs
 - Leech supported
-- Thumbnail supported
 - Size limiting for Torrent/Direct, Tar/Unzip, Mega and clone
-- Stop duplicates for all tasks except for qBittorrent and youtube-dl tasks 
+- Stop duplicates for all tasks except for youtube-dl tasks 
 - Tar/Unzip G-Drive link 
-- Select files from Torrent before downloading using qbittorrent
 - Sudo with or without Database
-- Multiple Trackers support
-- Extracting **tar.xz** support
 - Speedtest
 - Status Pages for unlimited tasks
 - Clone status
-- Heroku usage
 - Search in multiple Drive folder/TD
 ```
 nyaa.si, sukebei, 1337x, piratebay,
@@ -52,6 +47,7 @@ uptobox.com (Uptobox account must be premium), solidfiles.com
 - Service Account support
 - Delete files from Drive
 - Shortener support
+- Heroku usage
 - Custom Filename (Only for direct links, Telegram files and Youtube-dl. Not for Mega links and Torrents)
 - Extracting and downloading password protected index links. See these examples:
 <p><a href="https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20"> <img src="https://img.shields.io/badge/See%20Telegraph-grey?style=for-the-badge&logo=telegraph" width="170""/></a></p>
@@ -182,7 +178,7 @@ Two buttons are already added including Drive Link, Index Link, you can add extr
 
 Send following commands to BotFather.
 
-## You can only use the ones you need.
+### You can only use the ones you need.
 ```
 help - Get Detailed Help
 mirror - Start Mirroring
@@ -289,6 +285,9 @@ sudo docker image prune -a
 <p><a href="https://youtu.be/c8_TU1sPK08"> <img src="https://img.shields.io/badge/See%20Video-black?style=for-the-badge&logo=YouTube" width="160""/></a></p>
 
 </details>
+
+## Deploying on [workflow](https://github.com/rahulkhatri137/mirrorbot-workflow)
+###Upload Token pickle and setup config before starting the workflow! 
 
 ## Deploying on Heroku
 Fork this repo then upload **token.pickle** to your forks
