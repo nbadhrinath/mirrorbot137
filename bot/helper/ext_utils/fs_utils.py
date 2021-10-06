@@ -12,7 +12,7 @@ from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 
 from .exceptions import NotSupportedExtractionArchive
-from bot import aria2, LOGGER, DOWNLOAD_DIR, get_client, TG_SPLIT_SIZE
+from bot import aria2, LOGGER, DOWNLOAD_DIR, TG_SPLIT_SIZE
 
 VIDEO_SUFFIXES = ("M4V", "MP4", "MOV", "FLV", "WMV", "3GP", "MPG", "WEBM", "MKV", "AVI")
 
@@ -29,8 +29,6 @@ def start_cleanup():
 
 def clean_all():
     aria2.remove_all(True)
-    get_client().torrents_delete(torrent_hashes="all", delete_files=True)
-    get_client().auth_log_out()
     try:
         shutil.rmtree(DOWNLOAD_DIR)
     except FileNotFoundError:

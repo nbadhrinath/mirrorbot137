@@ -74,7 +74,7 @@ class MirrorListener(listeners.MirrorListeners):
             name = f"{download.name()}".replace('/', '')
             gid = download.gid()
             size = download.size_raw()
-            if name == "None" # when pyrogram's media.file_name is of NoneType
+            if name == "None": # when pyrogram's media.file_name is of NoneType
                 name = os.listdir(f'{DOWNLOAD_DIR}{self.uid}')[0]
             m_path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
         if self.isTar:

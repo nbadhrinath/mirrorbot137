@@ -9,7 +9,7 @@ hachoir
 heroku3
 js2py
 lxml
-psycopg2
+psycopg2-binary
 psutil
 pybase64
 pyrogram
